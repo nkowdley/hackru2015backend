@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Map</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <meta name="viewport" content="initial-scale=1.0">
+  <meta charset="utf-8">
+  <style>
+  #map {
+    height: 100%;
+  }
+  </style>
+</head>
+<body>
+  <!--ugly form starts here-->
+  <table>
+    <tr>
+      <td>
+        <form action="joinAct" method="post">
+          Name:
+          <input type="text" name="name"/>
+        </br>
+        id:
+        <input type="text" name="id"/>
+      </br>
+      <input type="submit" value="Join this Activity!"/>
+    </td>
+    <td>
+      <form action="newAct" method="post">
+        Activity
+        <input type="text", name="activity"/>
+      </br>
+      Location:
+      <input type="text", name="location"/>
+    </br>
+    Time:
+    <input type="text" name="time"/>
+  </br>
+  <input type="submit" value="Add a new activity"/>
+</form>
+</td>
+</tr>
+</form>
+</table>
+<div id="map"></div>
+<div id="json"></div>
+<script>
+//get the markers for our map
+var activities; //list of all activities parsed from json
+$(document).ready(function(){
+  $.ajax({ url: 'activity',
+  type: 'get',
+  dataType:"json", //get it in json
+  success: function(output) {
+    //console.log(output[0].activityName);
+    activities=output;
+  }
+});
+});
+//map stuff
+var map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 8
+  });
+  var myLatLng = {lat: -25.363, lng: 131.044};
+  //create marker for maps
+  for (var i=0;i<activities.length;i++){
+    //for each activity, place a marker.
+    console.log(activities[i].activityName);
+    console.log(activities[i].lat);
+    console.log(activities[i].lng);
+    console.log(activities[i].time);
+    var marker = new google.maps.Marker({
+      position: activities[i].location,
+      map: map,
+      title: activities[i].activityName,
+    });
+    marker.setMap(map);
+  }
+}
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-AJYiKjnoUfsdYcM4B4ZztQNN6IJEhKk&callback=initMap"
+async defer></script>
+<script>
+
+</script>
+</body>
+</html>

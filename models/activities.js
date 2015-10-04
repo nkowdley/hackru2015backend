@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 var schema = new mongoose.Schema({
   //schema setup
   activityName: String,
-  location: String,
+  lat: String,
+  lng: String,
   time: String,
   numberofPeople:Number,
 });

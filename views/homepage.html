@@ -1,0 +1,50 @@
+<html>
+<head>
+  <title>Activity</title>
+</head>
+<body>
+<!--ugly form starts here-->
+  <table>
+    <tr>
+      <td>
+        <form action="joinAct" method="post">
+          Name:
+          <input type="text" name="name"/>
+        </br>
+        id:
+        <input type="text" name="id"/>
+      </br>
+      <input type="submit" value="Join this Activity!"/>
+    </td>
+    <td>
+      <form action="joinAct" method="post">
+        Activity
+        <input type="text", name="activity"/>
+      </br>
+      Location:
+      <input type="text", name="location"/>
+    </br>
+      Time:
+      <input type="text" name="time"/>
+    </br>
+    <input type="submit" value="Add a new activity"/>
+  </form>
+</td>
+</tr>
+</form>
+</table>
+<!--display the map-->
+<div id="map" height=50%></div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcaRb_4a8rqmrenDR-_W3sPQ37An_3fzs&callback=initMap"
+     async defer></script>
+<script type="text/javascript">
+var map;
+function initMap() {
+map = new google.maps.Map(document.getElementById('map'), {
+center: {lat: -34.397, lng: 150.644},
+zoom: 8
+});
+}
+</script>
+</body>
+</html>

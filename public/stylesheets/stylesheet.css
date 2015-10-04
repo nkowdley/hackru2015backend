@@ -1,0 +1,41 @@
+/*Styles for pitt.edu/~nsk website*/
+/*YOU SHOULDN'T BE HERE*/
+
+td		{vertical-align: top;
+		  border: 2px;
+		  border-style: solid;
+			background-color: #45ADA8;
+		}
+th		{vertical-align: top;
+		  border: 2px;
+		  border-style: solid;
+			background-color: #9DE0AD;}
+
+body	{ background-color: #547980;
+}
+
+html, body {
+    height: 100%;
+}
+
+html {
+    margin: auto;
+}
+
+table {
+	border: solid;
+border-top-color: #E5FCC2;
+border-bottom-color: #E5FCC2;
+border-left-color: #E5FCC2;
+border-right-color: #E5FCC2;
+border-width: medium;
+position: relative;
+text-align: center;
+border-collapse: collapse;
+margin-left:auto;
+margin-right:auto;
+}
+
+td		{vertical-align: top;}
+h1 {text-align:center;}
+h2 {text-align:center;}

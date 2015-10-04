@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose'); //mongodb
 
 var routes = require('./routes/index'); //index
+//backend
 var activity = require('./routes/activity');//get all activities
 var users= require('./routes/users');//get all activities
 var newAct  = require('./routes/newAct');//post new activities
@@ -38,12 +39,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+//backend stuff
 app.use('/activity', activity); //show activities
 app.use('/users', users); //show users
 app.use('/newAct', newAct); //add activities
 app.use('/joinAct', joinAct); //join Activity
 app.use('/newActPost', newActPost); //post test
 app.use('/joinActPost', joinActPost); //post test
+//frontend stuff
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
