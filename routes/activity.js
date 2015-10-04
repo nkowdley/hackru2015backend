@@ -1,17 +1,21 @@
 var express = require('express');
-var router = express.Router();
-
-//include the models
+var mongoose = require('mongoose');
 var activity= require('../models/activities.js');
 
+var router = express.Router();
+var db = mongoose.connection; //connect to the db
 //get what we need from the db
 router.get('/', function(req, res, next) {
-  activity.find(function (err, activities) {
+  var collect='new';
+  db.collection('new').find().toArray(function (err, activities) {
     if (err)
     {
       console.log("Error:(err)");
       return next(err);
     }
+    console.log("Yolo");
+    console.log(activities.length);
+    console.dir(activities);
     res.json(activities);
   });
 });
