@@ -8,7 +8,7 @@ var db = mongoose.connection; //db connections
 //get what we need from the db
 router.post('/', function(req, res, next) {
   //get the info we need to update the databases
-  var user=req.body.user;
+  var user=req.body.name;
   var activity1=req.body.id;
   var query = {'_id':activity};
   console.log(user);
@@ -17,20 +17,18 @@ router.post('/', function(req, res, next) {
   //update the activity to show number of people going
   db.collection('new').findOneAndUpdate(query, {$inc : {'numberofPeople' : 1}}, {upsert:false}, function(err, doc){
     if (err)
-    { return res.send(500, { error: err });}
-    else {
-      res.send("Something good happened")
+    {
+      return res.send(500, { error: err });
     }
   });
-
-  // db.collection('users').findOneAndUpdate(query, {$push: {activities: activity}}, {upsert:true}, function(err, doc){
-  //   if (err)
-  //   { return res.send(500, { error: err });}
-  //   else {
-  //     res.send("Something good happened again!")
-  //   }
-  // });
-
+  //update the events a user is attending
+  var query = {'username':user};
+  db.collection('users').findOneAndUpdate(query, {$push: {activities: activity1}}, {upsert:true}, function(err, doc){
+    if (err)
+    {
+      return res.send(500, { error: err });
+    }
+  });
 });
 
 module.exports = router;
