@@ -14,29 +14,19 @@
 <body>
   <!--ugly form starts here-->
   <table>
-    <tr>
-      <td>
-        <form action="joinAct" method="post">
-          Name:
-          <input type="text" name="name"/>
-        </br>
-        id:
-        <input type="text" name="id"/>
-      </br>
-      <input type="submit" value="Join this Activity!"/>
-    </td>
     <td>
       <form action="newAct" method="post">
         Activity
-        <input type="text", name="activity"/>
+        <input type="text" id="newact" name="activity"/>
       </br>
       Location:
-      <input type="text", name="location"/>
+      <input type="text" id="newlat" name="lat"/>
+      <input type="text" id="newlng" name="lng"/>
     </br>
     Time:
-    <input type="text" name="time"/>
+    <input type="text" id="newtime" name="time"/>
   </br>
-  <input type="submit" value="Add a new activity"/>
+  <input type="button" onclick="newAct()" value="Add a new activity"/>
 </form>
 </td>
 </tr>
@@ -45,42 +35,115 @@
 <div id="map"></div>
 <div id="json"></div>
 <script>
+function joinAct()
+{
+  $.ajax({ url: 'joinAct',
+  data: {name: $("#joinname").val(), id: $("#joinid").val()},
+  type: 'post',
+  dataType: 'json',
+  success: function(output) {
+    window.location.reload();
+  }
+});
+}
+function newAct()
+{
+  $.ajax({ url: 'newAct',
+  data: {activity: $("#newact").val(), lat: $("#newlat").val(), lng: $("#newlng").val(),time: $("#newtime").val()},
+  type: 'post',
+  dataType: 'json',
+  success: function(output) {
+    window.location.reload();
+  }
+});
+}
 //get the markers for our map
 var activities; //list of all activities parsed from json
+var infos=new Array();
 $(document).ready(function(){
   $.ajax({ url: 'activity',
   type: 'get',
   dataType:"json", //get it in json
   success: function(output) {
-    //console.log(output[0].activityName);
+    console.log(output[0].id);
     activities=output;
   }
 });
 });
 //map stuff
-var map;
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
-    zoom: 8
+var contentString=new Array();
+function initMap(){
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 10,
+    center: new google.maps.LatLng(40.5222103,-74.4568386),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
   });
-  var myLatLng = {lat: -25.363, lng: 131.044};
-  //create marker for maps
-  for (var i=0;i<activities.length;i++){
-    //for each activity, place a marker.
-    console.log(activities[i].activityName);
-    console.log(activities[i].lat);
-    console.log(activities[i].lng);
-    console.log(activities[i].time);
-    var marker = new google.maps.Marker({
-      position: activities[i].location,
-      map: map,
-      title: activities[i].activityName,
+  for (i = 0; i < activities.length; i++) {
+    contentString[i]="<h3>Activity:"+activities[i].activityName+"</h3></br>"+"<p>Time:"+activities[i].time+"</br>Number of People Attending:"
+    +activities[i].numberofPeople+"</p>"+"Name:<input type=\"text\" id=\"joinname\" name=\"name\"/> </br><input type=\"hidden\" id=\"joinid\" name=\"id\" value="
+    +activities[i]._id+" /></br><input type=\"button\" value=\"Join this Activity!\" onclick=\"joinAct()\"/>";
+  }
+
+  var infowindow = new google.maps.InfoWindow();
+
+  var marker, i;
+
+  for (i = 0; i < activities.length; i++) {
+    marker = new google.maps.Marker({
+      position: new google.maps.LatLng(activities[i].lat, activities[i].lng),
+      map: map
     });
-    marker.setMap(map);
+
+    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+      return function() {
+        infowindow.setContent(contentString[i]);
+        infowindow.open(map, marker);
+      }
+    })(marker, i));
   }
 }
-
+// var map;
+// function initMap() {
+//   map = new google.maps.Map(document.getElementById('map'), {
+//     center: {lat: 40.5222103, lng: -74.4568386},
+//     zoom: 8
+//   });
+//   //var myLatLng = {lat: -25.363, lng: 131.044};
+//   //create marker for maps
+//   var markers=new Array();
+//   var infos=new Array();
+//   for (var i=0;i<activities.length;i++){
+//     //for each activity, place a marker.
+//     console.log(activities[i].activityName);
+//     console.log(activities[i].lat);
+//     console.log(activities[i].lng);
+//     console.log(activities[i].time);
+//     var lat1=parseFloat(activities[i].lat);
+//     var lng1=parseFloat(activities[i].lng);
+//     var latlng={lat:lat1,lng:lng1};
+//     var marker = new google.maps.Marker({
+//       position:latlng,
+//       map: map,
+//       title: activities[i].activityName,
+//     });
+//     var contentString="<h3>Activity:"+activities[i].activityName+"</h3></br>"+"<p>Time:"+activities[i].time+"</br>Number of People Attending:"+activities[i].numberofPeople+"</p>";
+//     infos[i]=contentString;
+//     var infowindow = new google.maps.InfoWindow({
+//       content: contentString,
+//     });
+//     //marker.setMap(map);
+//     markers[i]=marker;
+//   }
+//   for (var i = 0; i < markers.length; i++) {
+//     var marker1 = markers[i];
+//     google.maps.event.addListener(marker1, "click", function () {
+//       infowindow.setContent(this.html);
+//       infowindow.open(map, this);
+//     });
+//   }
+//   var infowindow = new google.maps.InfoWindow({
+//     content: contentString
+//   });
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-AJYiKjnoUfsdYcM4B4ZztQNN6IJEhKk&callback=initMap"
 async defer></script>
