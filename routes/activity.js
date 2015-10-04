@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
     }
     console.log("Yolo");
     console.log(activities.length);
-    console.dir(activities);
+    //console.dir(activities);
     res.json(activities);
   });
 });

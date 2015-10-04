@@ -18,7 +18,7 @@ router.post('/', function(req, res, next) {
     activityName: activityNameVal,
     location: locationVal,
     time: timeVal,
-    numberofPeople:'0', //for a new activity, 0 other people are attending
+    numberofPeople:0, //for a new activity, 0 other people are attending
   };
   db.collection('new').insert(newActivity);
 });

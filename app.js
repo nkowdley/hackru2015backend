@@ -11,6 +11,7 @@ var activity = require('./routes/activity');//get all activities
 var newAct  = require('./routes/newAct');//post new activities
 var joinAct  = require('./routes/joinAct');//Post to join Activity
 var newActPost  = require('./routes/newActPost');//Form page to test
+var joinActPost  = require('./routes/joinActPost');//Form page to test
 var app = express();
 
 //mongo connection, set the connection to a variable, db
@@ -40,6 +41,7 @@ app.use('/activity', activity); //show activities
 app.use('/newAct', newAct); //add activities
 app.use('/joinAct', joinAct); //join Activity
 app.use('/newActPost', newActPost); //post test
+app.use('/joinActPost', joinActPost); //post test
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

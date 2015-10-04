@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 hello
+  p Welcome to Activity
+  
+  form(action="joinAct", method="post", )
+      label User:
+      input(type="text", name="name")
+      br
+      label id:
+      input(type="text", name="id")
+      br
+      input(type="submit", value="Join An Activity!")
