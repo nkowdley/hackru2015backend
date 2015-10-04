@@ -43,6 +43,7 @@ function joinAct()
   dataType: 'json',
   success: function(output) {
     window.location.reload();
+    location.reload( true );
   }
 });
 }
@@ -53,9 +54,11 @@ function newAct()
   type: 'post',
   dataType: 'json',
   success: function(output) {
-    window.location.reload();
   }
 });
+//attempt to reload the page
+window.location = self.location;
+location.reload();
 }
 //get the markers for our map
 var activities; //list of all activities parsed from json

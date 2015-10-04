@@ -4,6 +4,7 @@ var router = express.Router();
 //include the models
 var activity= require('../models/activities.js'); //mongodb for activities
 var users= require('../models/users.js'); //mongodb for users
+var ObjectId = require('mongoose').Types.ObjectId;
 var db = mongoose.connection; //db connections
 //get what we need from the db
 router.post('/', function(req, res, next) {
@@ -11,10 +12,10 @@ router.post('/', function(req, res, next) {
   var user=req.body.name;
   var activity1=req.body.id;
   var activity2=activity1.toString();
-  //var idString="ObjectId("+activity1+")";
-  var query = {'_id':activity};
+  var objectid= new ObjectId(activity1);
+  var query = {'_id':objectid};
   console.log(user);
-  console.log("act: "+activity);
+  console.log("act: "+activity1);
   console.log("Yolo1");
   //update the activity to show number of people going
   db.collection('new').findOneAndUpdate(query, {$inc : {'numberofPeople' : 1}}, {upsert:false}, function(err, doc){
